@@ -1,0 +1,115 @@
+{% extends 'layout.html' %}
+
+<!-- {% block title %} -->
+Home - Convertly
+{% endblock %}
+
+{% block content %}
+
+<!-- Display messages -->
+{% if messages %}
+    <div id="message-box" class="mt-4">
+        {% for message in messages %}
+            <div class="bg-green-200 text-green-800 border text-center border-green-400 px-4 py-2 rounded mb-4">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<div class="text-center">
+    <h1 class="text-4xl font-bold text-green-700">Welcome to Convertly</h1>
+    <p class="mt-4 text-green-600">Your one-stop solution for converting documents online.</p>
+
+    <!-- Conversion Boxes Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-10 mx-4">
+        <!-- DOCX to PDF -->
+        <a href="{% url 'get_document' 'docx' 'pdf' %}" class="bg-white shadow-lg p-4 rounded-lg border border-green-500 hover:bg-green-500 hover:text-green-950 transition duration-300 ease-in-out transform hover:scale-105">
+            <h2 class="text-lg sm:text-xl font-bold">DOCX to PDF</h2>
+            <p class="mt-2 text-sm sm:text-base">Convert DOCX documents to PDF format.</p>
+        </a>
+
+        <!-- PDF to DOCX -->
+        <a href="{% url 'get_document' 'pdf' 'docx' %}" class="bg-white shadow-lg p-4 rounded-lg border border-green-500 hover:bg-green-500 hover:text-green-950 transition duration-300 ease-in-out transform hover:scale-105">
+            <h2 class="text-lg sm:text-xl font-bold">PDF to DOCX</h2>
+            <p class="mt-2 text-sm sm:text-base">Convert PDF documents to DOCX format.</p>
+        </a>
+
+        <!-- JPG to PDF -->
+        <a href="{% url 'get_document' 'jpg' 'pdf' %}" class="bg-white shadow-lg p-4 rounded-lg border border-green-500 hover:bg-green-500 hover:text-green-950 transition duration-300 ease-in-out transform hover:scale-105">
+            <h2 class="text-lg sm:text-xl font-bold">JPG to PDF</h2>
+            <p class="mt-2 text-sm sm:text-base">Convert images (only support jpg formats) to PDF format.</p>
+        </a>
+
+        <!-- TXT to PDF -->
+        <a href="{% url 'get_document' 'txt' 'pdf' %}" class="bg-white shadow-lg p-4 rounded-lg border border-green-500 hover:bg-green-500 hover:text-green-950 transition duration-300 ease-in-out transform hover:scale-105">
+            <h2 class="text-lg sm:text-xl font-bold">TXT to PDF</h2>
+            <p class="mt-2 text-sm sm:text-base">Convert TXT documents to PDF format.</p>
+        </a>
+
+        <!-- PDF to TXT -->
+        <a href="{% url 'get_document' 'pdf' 'txt' %}" class="bg-white shadow-lg p-4 rounded-lg border border-green-500 hover:bg-green-500 hover:text-green-950 transition duration-300 ease-in-out transform hover:scale-105">
+            <h2 class="text-lg sm:text-xl font-bold">PDF to TXT</h2>
+            <p class="mt-2 text-sm sm:text-base">Convert PDF Files to Text Document.</p>
+        </a>
+
+        <!-- Excel to PDF -->
+        <a href="{% url 'get_document' 'xlsx' 'pdf' %}" class="bg-white shadow-lg p-4 rounded-lg border border-green-500 hover:bg-green-500 hover:text-green-950 transition duration-300 ease-in-out transform hover:scale-105">
+            <h2 class="text-lg sm:text-xl font-bold">Excel to PDF</h2>
+            <p class="mt-2 text-sm sm:text-base">Convert Excel Files to PDF format.</p>
+        </a>
+
+        <!-- DOCX to TXT -->
+        <a href="{% url 'get_document' 'docx' 'txt' %}" class="bg-white shadow-lg p-4 rounded-lg border border-green-500 hover:bg-green-500 hover:text-green-950 transition duration-300 ease-in-out transform hover:scale-105">
+            <h2 class="text-lg sm:text-xl font-bold">DOCX to TXT</h2>
+            <p class="mt-2 text-sm sm:text-base">Convert DOCX Files to TXT format.</p>
+        </a>
+
+        <!-- TXT to DOCX -->
+        <a href="{% url 'get_document' 'txt' 'docx' %}" class="bg-white shadow-lg p-4 rounded-lg border border-green-500 hover:bg-green-500 hover:text-green-950 transition duration-300 ease-in-out transform hover:scale-105">
+            <h2 class="text-lg sm:text-xl font-bold">TXT to DOCX</h2>
+            <p class="mt-2 text-sm sm:text-base">Convert TXT Files to DOCX format.</p>
+        </a>
+
+        <a href="{% url 'get_document' 'png' 'pdf' %}" class="bg-white shadow-lg p-4 rounded-lg border border-green-500 hover:bg-green-500 hover:text-green-950 transition duration-300 ease-in-out transform hover:scale-105">
+            <h2 class="text-lg sm:text-xl font-bold">PNG to PDF</h2>
+            <p class="mt-2 text-sm sm:text-base">Convert images(support png format) to PDF format.</p>
+        </a>
+
+        <a href="{% url 'get_document' 'pptx' 'pdf' %}" class="bg-white shadow-lg p-4 rounded-lg border border-green-500 hover:bg-green-500 hover:text-green-950 transition duration-300 ease-in-out transform hover:scale-105">
+            <h2 class="text-lg sm:text-xl font-bold">PPTX to PDF</h2>
+            <p class="mt-2 text-sm sm:text-base">Convert Powerpoint slides to PDF Document.</p>
+        </a>
+
+        <a href="{% url 'get_document' 'html' 'pdf' %}" class="bg-white shadow-lg p-4 rounded-lg border border-green-500 hover:bg-green-500 hover:text-green-950 transition duration-300 ease-in-out transform hover:scale-105">
+            <h2 class="text-lg sm:text-xl font-bold">HTML to PDF</h2>
+            <p class="mt-2 text-sm sm:text-base">Convert HTML Files to PDF Document.</p>
+        </a>
+
+        <a href="{% url 'get_document' 'pdf' 'jpg' %}" class="bg-white shadow-lg p-4 rounded-lg border border-green-500 hover:bg-green-500 hover:text-green-950 transition duration-300 ease-in-out transform hover:scale-105">
+            <h2 class="text-lg sm:text-xl font-bold">PDF to JPG</h2>
+            <p class="mt-2 text-sm sm:text-base">Convert PDF Files to JPG.</p>
+        </a>
+
+        <!-- Add more conversion options as needed -->
+    </div>
+</div>
+
+<script>
+    // Fade out messages after 3 seconds
+    window.onload = function() {
+        const messageBox = document.getElementById('message-box');
+        if (messageBox) {
+            const messages = messageBox.children; // Get all messages
+            for (let message of messages) {
+                setTimeout(() => {
+                    message.style.transition = "opacity 1s ease-out";
+                    message.style.opacity = 0;
+                    setTimeout(() => message.remove(), 1000); // Remove the element after fade out
+                }, 2000); // Wait for 3 seconds before starting the fade out
+            }
+        }
+    };
+</script>
+
+{% endblock %}
