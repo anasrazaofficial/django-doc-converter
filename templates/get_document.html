@@ -3,96 +3,101 @@
 {% block title %}Upload Document{% endblock %}
 
 {% block content %}
-    <div class="bg-green-800 border border-green-600 text-green-400 text-2xl p-4 w-full mx-auto mt-8 rounded-lg shadow-md text-center">
-        <p class="text-3xl sm:text-4xl font-semibold">Convert {{ from_format }} to {{ to_format }}</p>
+<h2 class="text-2xl font-bold text-green-700 px-4 text-center">Convertly - {{ from_format }} to {{ to_format }}</h2>
+
+<!-- Display messages -->
+{% if messages %}
+<div id="message-box" class="mt-4">
+    {% for message in messages %}
+    <div class="bg-green-200 text-green-800 border border-green-400 px-4 py-2 rounded mb-4">
+        {{ message }}
     </div>
+    {% endfor %}
+</div>
+{% endif %}
 
-    <!-- Display messages -->
-    {% if messages %}
-      <div id="message-box" class="mt-4">
-          {% for message in messages %}
-              <div class="bg-green-200 text-green-800 border border-green-400 px-4 py-2 rounded mb-4">
-                  {{ message }}
-              </div>
-          {% endfor %}
-      </div>
-    {% endif %}
+<!-- Form Container with light green box -->
+<div class="mt-8 bg-green-100 border border-green-200 p-6 rounded-lg shadow-md mx-4 sm:mx-auto sm:w-lg">
+    <form method="POST" enctype="multipart/form-data" id="uploadForm">
+        {% csrf_token %}
+        <div class="mb-4 [&>input]:border">
+            {{ form.as_p }} <!-- Display the form fields -->
+        </div>
 
-    <!-- Form Container with light green box -->
-    <div class="mt-8 bg-green-100 border border-green-200 p-6 rounded-lg shadow-md w-full max-w-lg mx-auto">
-        <form method="POST" enctype="multipart/form-data" id="uploadForm">
-            {% csrf_token %}
-            <div class="mb-4">
-                {{ form.as_p }}  <!-- Display the form fields -->
-            </div>
+        <!-- Submit Button with light green theme -->
+        <div class="flex gap-x-4 items-center justify-center">
+            <a href="/" type="button"
+                class="border border-green-500 text-green-500 hover:bg-[#00c9512b] font-bold py-2 px-6 rounded-full shadow-md focus:outline-none transition cursor-pointer w-28 text-center">
+                Back
+            </a>
+            <button type="submit"
+                class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-full shadow-md focus:outline-none transition cursor-pointer w-28 text-center">
+                Convert
+            </button>
+        </div>
+    </form>
+</div>
 
-            <!-- Submit Button with light green theme -->
-            <div class="flex items-center justify-center">
-                <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-green-300 transition">
-                    Upload and Convert
-                </button>
-            </div>
-        </form>
-    </div>
+<!-- Loading bar, hidden by default -->
+<div id="loadingBar" class="hidden justify-center items-center mt-8">
+    <div class="w-16 h-16 border-t-4 border-green-500 rounded-full animate-spin"></div>
+    <p class="text-green-700 text-lg ml-4">Converting your document, please wait... It will take some time.</p>
+</div>
 
-    <!-- Loading bar, hidden by default -->
-    <div id="loadingBar" class="hidden justify-center items-center mt-8">
-        <div class="w-16 h-16 border-t-4 border-green-500 rounded-full animate-spin"></div>
-        <p class="text-green-700 text-lg ml-4">Converting your document, please wait... It will take some time.</p>
-    </div>
+<!-- Tailwind-based styling for 'Choose file' option in center -->
+<style>
+    #message-box {
+        animation: fadeOut 4s forwards;
+        /* Fades out after 5 seconds */
+    }
 
-    <!-- Tailwind-based styling for 'Choose file' option in center -->
-    <style>
-        #message-box {
-            animation: fadeOut 4s forwards; /* Fades out after 5 seconds */
+    @keyframes fadeOut {
+        0% {
+            opacity: 1;
         }
 
-        @keyframes fadeOut {
-            0% {
-                opacity: 1;
-            }
-            100% {
-                opacity: 0;
-            }
+        100% {
+            opacity: 0;
         }
-    </style>
+    }
+</style>
 
-    <!-- JavaScript to handle form submission and show loading bar -->
-    <script>
-        document.getElementById('uploadForm').addEventListener('submit', function () {
-            // Disable the submit button to prevent multiple submissions
-            this.querySelector('button[type="submit"]').disabled = true;
+<!-- JavaScript to handle form submission and show loading bar -->
+<script>
+    document.getElementById('uploadForm').addEventListener('submit', function () {
+        // Disable the submit button to prevent multiple submissions
+        this.querySelector('button[type="submit"]').disabled = true;
 
-            // Show the loading bar after a 1-second delay
+        // Show the loading bar after a 1-second delay
+        setTimeout(() => {
+            const loadingBar = document.getElementById('loadingBar');
+            loadingBar.classList.remove('hidden');  // Remove 'hidden' class to show the bar
+            loadingBar.classList.add('flex');  // Add 'flex' class to make it a flex container
+        }, 1000); // <-- Changed this to 1000 milliseconds (1 second)
+    });
+
+    // Function to show messages
+    function showMessages() {
+        const messageBox = document.getElementById('message-box');
+        messageBox.style.opacity = '1';  // Reset opacity to 1
+        messageBox.classList.remove('hidden');  // Show the message box
+
+        // Fade out after a specified duration
+        setTimeout(() => {
+            messageBox.style.transition = 'opacity 5s'; // Set transition for opacity
+            messageBox.style.opacity = '0'; // Fade out
             setTimeout(() => {
-                const loadingBar = document.getElementById('loadingBar');
-                loadingBar.classList.remove('hidden');  // Remove 'hidden' class to show the bar
-                loadingBar.classList.add('flex');  // Add 'flex' class to make it a flex container
-            }, 1000); // <-- Changed this to 1000 milliseconds (1 second)
-        });
+                messageBox.classList.add('hidden'); // Hide the box after fading out
+            }, 0); // Wait for 0 seconds before adding 'hidden'
+        }, 2000); // Start fade out after 2 seconds
+    }
 
-        // Function to show messages
-        function showMessages() {
-            const messageBox = document.getElementById('message-box');
-            messageBox.style.opacity = '1';  // Reset opacity to 1
-            messageBox.classList.remove('hidden');  // Show the message box
-            
-            // Fade out after a specified duration
-            setTimeout(() => {
-                messageBox.style.transition = 'opacity 5s'; // Set transition for opacity
-                messageBox.style.opacity = '0'; // Fade out
-                setTimeout(() => {
-                    messageBox.classList.add('hidden'); // Hide the box after fading out
-                }, 0000); // Wait for 0 seconds before adding 'hidden'
-            }, 2000); // Start fade out after 2 seconds
-        }
-
-        // Call showMessages function when the page loads
-        window.onload = function() {
-            if ({{ messages|length }}) {  // Check if there are messages to display
-                showMessages();
-            }
+    // Call showMessages function when the page loads
+    window.onload = function () {
+        if (messages | length) {
+            showMessages()
         };
-    </script>
+    }
+</script>
 
 {% endblock %}
